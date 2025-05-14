@@ -1,0 +1,6 @@
+@Flipso_HostAddress = http://localhost:5199
+
+GET {{Flipso_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
