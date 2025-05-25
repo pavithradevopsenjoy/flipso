@@ -1,25 +1,22 @@
 # Stage 1: Build
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy csproj and restore as distinct layers
+# Copy csproj and restore dependencies
 COPY *.csproj ./
 RUN dotnet restore
 
-# Copy everything else and build
+# Copy the entire project and build
 COPY . ./
 RUN dotnet publish -c Release -o /app/publish
 
 # Stage 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-
-# Copy the published output from build stage
 COPY --from=build /app/publish ./
 
-# Expose port (adjust if your app listens on a different port)
+# Expose port if needed (e.g., for ASP.NET apps)
 EXPOSE 80
 
-# Run the application
+# Replace with your actual DLL name
 ENTRYPOINT ["dotnet", "Flipso.sln"]
-
