@@ -2,8 +2,9 @@ version: 0.2
 
 env:
   variables:
-    REPOSITORY_URI: "<account-id>.dkr.ecr.<region>.amazonaws.com/my-app-repo"
+    REPOSITORY_URI: "637318189758.dkr.ecr.ap-south-1.amazonaws.com/my-app-repo"
     IMAGE_TAG: "latest"
+    AWS_REGION: ap-south-1
 
 phases:
   pre_build:
