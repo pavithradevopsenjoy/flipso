@@ -1,22 +1,18 @@
-# Stage 1: Build
+# Use .NET 8 SDK image to build the app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+WORKDIR /app
 
-# Copy csproj and restore dependencies
+# Copy csproj and restore as distinct layers
 COPY *.csproj ./
 RUN dotnet restore
 
-# Copy the entire project and build
+# Copy everything else and build
 COPY . ./
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish -c Release -o out
 
-# Stage 2: Runtime
+# Use a smaller runtime image for the final build
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=build /app/publish ./
+COPY --from=build /app/out .
 
-# Expose port if needed (e.g., for ASP.NET apps)
-EXPOSE 80
-
-# Replace with your actual DLL name
-ENTRYPOINT ["dotnet", "Flipso.sln"]
+ENTRYPOINT ["dotnet", "Flipso.csproj"]
