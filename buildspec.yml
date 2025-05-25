@@ -3,7 +3,6 @@ version: 0.2
 env:
   variables:
     REPOSITORY_URI: "637318189758.dkr.ecr.ap-south-1.amazonaws.com/my-app-repo"
-    IMAGE_TAG: "latest"
     AWS_REGION: ap-south-1
 
 phases:
@@ -18,7 +17,6 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - echo Building Docker image with tag $IMAGE_TAG...
       - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
       - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:latest
 
