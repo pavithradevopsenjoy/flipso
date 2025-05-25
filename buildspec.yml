@@ -21,7 +21,7 @@ phases:
       - IMAGE_TAG=$COMMIT_HASH
       - echo Build started on `date`
       - echo Building Docker image with tag $IMAGE_TAG...
-      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG || exit 1
       - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:latest
   post_build:
     commands:
@@ -29,7 +29,7 @@ phases:
       - IMAGE_TAG=$COMMIT_HASH
       - echo Build completed on `date`
       - echo Pushing Docker images to ECR...
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:$IMAGE_TAG || exit 1
       - docker push $REPOSITORY_URI:latest
       - printf '[{"name":"my-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 
